@@ -1,0 +1,119 @@
+.App {
+  text-align: center;
+  min-height: 90vh; /* Set the minimum height of the .App to 90vh */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ... (other CSS rules) ... */
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+body {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: #bb9f88;
+}
+
+.title {
+  text-align: center;
+  width: 30vw;
+  background-color: rgb(190, 164, 214);
+  padding: 2vw 1vw;
+  border-radius: 10px 10px 0 0;
+  font-size: 2rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.head {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgb(232, 244, 255);
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.Formdata {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  padding: 2vw 1vw;
+  border-radius: 10px;
+  width: 400px;
+}
+
+.inputarae {
+  /* border: 1px solid rgb(25, 23, 23); */
+  border-radius: 10px;
+  padding: 1vw;
+  outline: none;
+  margin: 5px;
+}
+.inputicon {
+  background-color: "#a1eafb";
+  padding: "10px 20px";
+  border: "none";
+  border-radius: "5px";
+  color: "#fff";
+  font-size: "16px";
+  font-weight: "bold";
+  text-transform: "uppercase";
+  box-shadow: "0px 2px 5px rgba(0, 0, 0, 0.2)";
+  transition: "background-color 0.3s ease";
+  cursor: "pointer";
+}
+.button {
+  width: 30%;
+  color: black;
+}
+.inputs {
+  width: 100%;
+}
+
+/* Add this CSS to your existing CSS file or style section */
+.Form.Control {
+  height: auto; /* Set the height to adjust automatically based on content */
+  max-height: 200px; /* Set a maximum height to limit textarea growth if needed */
+  overflow-y: auto; /* Add vertical scrollbar when content overflows */
+}
