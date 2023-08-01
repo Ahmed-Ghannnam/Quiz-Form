@@ -9,25 +9,29 @@ function FinalResult() {
   const [result, setResult] = useState("");
 
   const totalLengthofQusetions = Object.values(correctAnswers).length;
-  console.log(totalLengthofQusetions);
 
   useEffect(() => {
     let thisAnswerISCorrected = 0;
     for (const key in SelectedValues) {
       const correct = correctAnswers[key];
-      const element = SelectedValues[key];
-      if (correct === element) {
+      const selected = SelectedValues[key];
+      if (correct === selected) {
         thisAnswerISCorrected += 1;
       }
     }
-    const percentage = thisAnswerISCorrected / totalLengthofQusetions;
-    console.log(percentage);
-
+    const percentage =
+      totalLengthofQusetions > 0
+        ? thisAnswerISCorrected / totalLengthofQusetions
+        : 0;
     if (percentage > 0.5) {
-      const message = `Congratulations, you passed with ${percentage}% correct answers.`;
+      const message = `Congratulations, you passed with ${
+        percentage * 100
+      } % correct answers.`;
       setResult(message);
     } else {
-      const message = `Oops, you didn't pass. You got only ${percentage}% correct answers.`;
+      const message = `Oops, you didn't pass. You got only ${
+        percentage * 100
+      } % correct answers.`;
       setResult(message);
     }
   }, [correctAnswers, SelectedValues, totalLengthofQusetions]);

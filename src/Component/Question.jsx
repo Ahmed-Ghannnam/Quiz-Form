@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import CardQuestions from "./CardQuestions";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { NameAction } from "../Store/Slice/Slice";
 import getQuestions from "../middelware/AsyncThunk";
+import TimerDisplay from "./TImerDisplay";
+import "../App.css";
+
 function Question() {
   const Navigate = useNavigate();
   const dispatch = useDispatch();
@@ -18,14 +21,17 @@ function Question() {
   const [title, settTitle] = useState("");
   const [choices, setChoices] = useState([]);
   const [correctAnswerstoDispatch, setcorrectAnswer] = useState([]);
+  const [timer, setTimer] = useState(10);
+  // Use useRef to maintain a mutable reference to the timer value
+  const timerRef = useRef(10);
 
   useEffect(() => {
+    // make asynk thunk to avoid asynk operation
+    // fetch data return promise .. cant dispatch direct after fetch so we use async thunk
     dispatch(getQuestions());
   }, [dispatch]);
 
   useEffect(() => {
-    console.log(store.questionReducer.questions);
-
     if (questions.length > 0) {
       if (QuestionIndex < questions.length) {
         settTitle(questions[QuestionIndex].title);
@@ -41,11 +47,41 @@ function Question() {
     }
   }, [QuestionIndex, store, dispatch, questions, Navigate]);
 
-  const handlequestions = () => {
-    setQuestionIndex(QuestionIndex + 1);
+  const handleNextQuestion = () => {
+    setQuestionIndex((prevIndex) => prevIndex + 1);
+
+    // Reset the timer value using the mutable reference
+    timerRef.current = 10;
+
+    // Update the state with the new timer value
+    setTimer(timerRef.current);
     dispatch(NameAction.catchCorrectAnswer(correctAnswerstoDispatch));
-    console.log(correctAnswerstoDispatch);
   };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (timerRef.current === 0) {
+        handleNextQuestion();
+      }
+      console.log(timerRef.current);
+      setTimer(timerRef.current);
+      // Update the timer value using the mutable reference
+      timerRef.current -= 1;
+    }, 1000);
+    return () => clearInterval(interval);
+  });
+
+  // const TimerDisplay = () => {
+  //   // Style the timer using a separate div
+  //   return (
+  //     <div className="timer">
+  //       {/* <FontAwesomeIcon icon={faClock} className="clock-icon" /> */}
+  //       <FontAwesomeIcon icon="clock" className="clock-icon" />
+  //       <span>{timer}</span>
+  //     </div>
+  //   );
+  // };
+
   return (
     <>
       <div className="head">
@@ -54,12 +90,15 @@ function Question() {
       {errorMessage && <h2 style={{ color: "red" }}>{errorMessage}</h2>}
       {questions.length > 0 && (
         <>
-          <h5>Question No {QuestionIndex + 1} of 5</h5>
+          <h5>
+            Question No {QuestionIndex + 1} of {questions.length}
+          </h5>
+          <TimerDisplay timer={timer} />
           <CardQuestions
             title={title}
             choices={choices}
             QuestionIndex={QuestionIndex}
-            handlequestions={handlequestions}
+            handleNextQuestion={handleNextQuestion}
           />
         </>
       )}

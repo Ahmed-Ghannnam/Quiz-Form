@@ -13,27 +13,37 @@ import { Col, Row } from "react-bootstrap";
 
 function CardQuestions(props) {
   const dispatch = useDispatch();
-  const [selectedtoCheck, setselectedtoCheck] = useState("");
+  const [selectedtoCheck, setselectedtoCheck] = useState(null);
   const [SelectedValues, setSelectedValues] = useState({});
 
   const handleChange = (event) => {
     const { value } = event.target;
+    // to make the selected value checked in UI
     setselectedtoCheck(value);
+
     setSelectedValues((prevSelectedValues) => ({
       ...prevSelectedValues,
-      [props.QuestionIndex]: value,
+      [props.QuestionIndex]: value || null, // Set the value to null when the user does not select anything
     }));
   };
+
   useEffect(() => {
+    // to hide the button to prevent from click the button without choose value
+    setselectedtoCheck(null);
+  }, [props.QuestionIndex]); // This useEffect will run whenever the QuestionIndex changes
+
+  useEffect(() => {
+    // store values had been selected to compare them with corrected answers
     dispatch(NameAction.catchselected(SelectedValues));
-    console.log(Object.values(SelectedValues));
   }, [SelectedValues, dispatch]);
 
   return (
     <div className="container">
       <Row className="mt-4">
         <p style={{ fontSize: "22px" }}>{props.title}</p>
-
+        {/* <div className="timer">
+          <span>{props.timer} </span>
+        </div> */}
         <Col className="choices" xs={12} md={12}>
           <label className="mt-3 bg-light rounded cursor-pointer">
             {" "}
@@ -96,19 +106,21 @@ function CardQuestions(props) {
           </label>
         </Col>
         <Col xs={12} md={12} className="smt-5 mt-2-md-4">
-          <Button
-            style={{
-              color: "white",
-              borderRadius: "4px",
-              width: "150px",
-              marginLeft: "500px",
-              justifyContent: "center",
-              backgroundcolor: " rgb(232, 244, 255)",
-            }}
-            onClick={props.handlequestions}
-          >
-            Next
-          </Button>
+          {selectedtoCheck !== null && (
+            <Button
+              style={{
+                color: "white",
+                borderRadius: "4px",
+                width: "150px",
+                marginLeft: "500px",
+                justifyContent: "center",
+                backgroundcolor: " rgb(232, 244, 255)",
+              }}
+              onClick={props.handleNextQuestion}
+            >
+              Next
+            </Button>
+          )}
         </Col>
       </Row>
     </div>

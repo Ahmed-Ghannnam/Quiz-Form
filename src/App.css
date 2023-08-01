@@ -65,7 +65,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-
   background-color: rgb(232, 244, 255);
   width: 100%;
   position: absolute;
@@ -111,9 +110,83 @@ body {
   width: 100%;
 }
 
-/* Add this CSS to your existing CSS file or style section */
 .Form.Control {
-  height: auto; /* Set the height to adjust automatically based on content */
-  max-height: 200px; /* Set a maximum height to limit textarea growth if needed */
-  overflow-y: auto; /* Add vertical scrollbar when content overflows */
+  height: auto;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* ... (other CSS rules) ... */
+
+.timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #221f1f;
+  /* background-color: #007bff; */
+  padding: 8px 16px;
+  border-radius: 4px;
+  position: absolute;
+  top: 110px;
+  left: 350px;
+}
+
+.progress-ring {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 4px solid transparent;
+  position: absolute;
+  top: -2px;
+  left: 5px;
+  animation: progress-ring-anim linear 10s forwards;
+}
+
+@keyframes progress-ring-anim {
+  0% {
+    transform: rotate(0deg);
+    border-color: #007bff; /* Start with blue color when time is 10 seconds */
+  }
+  100% {
+    transform: rotate(360deg);
+    border-color: #dc3545; /* End with red color when time is 0 seconds */
+  }
+}
+
+.timer span {
+  width: 32px; /* Adjust the width to make the timer narrower */
+  display: inline-block;
+  text-align: center;
+  align-items: center;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .title {
+    /* Adjust the width for smaller screen sizes */
+    width: 80vw;
+  }
+
+  .head {
+    /* Adjust the padding for smaller screen sizes */
+    padding: 8px;
+  }
+
+  .Formdata {
+    /* Adjust the width for smaller screen sizes */
+    width: 90vw;
+  }
+
+  .inputarae {
+    /* Adjust the padding for smaller screen sizes */
+    padding: 10px;
+  }
+  .button {
+    /* Adjust the width for smaller screen sizes */
+    width: 100%;
+  }
+
+  /* Add any other responsive styles for smaller screen sizes */
 }
