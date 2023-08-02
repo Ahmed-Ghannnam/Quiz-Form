@@ -24,6 +24,7 @@ function Question() {
   const [timer, setTimer] = useState(10);
   // Use useRef to maintain a mutable reference to the timer value
   const timerRef = useRef(10);
+  const intervalRef = useRef(null);
 
   useEffect(() => {
     // make asynk thunk to avoid asynk operation
@@ -43,11 +44,13 @@ function Question() {
       } else {
         Navigate("/FinalResult");
       }
-      console.log(store.questionReducer.errorMessage);
+      console.log("tore.questionReducer.errorMessag");
     }
-  }, [QuestionIndex, store, dispatch, questions, Navigate]);
+  }, [QuestionIndex, questions, Navigate]);
 
   const handleNextQuestion = () => {
+    // This ensures that the timer value used in the update is the latest state value, not the initial value
+    // instead of using   setQuestionIndex( prevIndex + 1);
     setQuestionIndex((prevIndex) => prevIndex + 1);
 
     // Reset the timer value using the mutable reference
@@ -55,9 +58,13 @@ function Question() {
 
     // Update the state with the new timer value
     setTimer(timerRef.current);
+
+    // setTimer(10);
+
     dispatch(NameAction.catchCorrectAnswer(correctAnswerstoDispatch));
   };
 
+  // used to start the timer when the component mounts and clear the interval when the component unmounts
   useEffect(() => {
     const interval = setInterval(() => {
       if (timerRef.current === 0) {
@@ -68,19 +75,10 @@ function Question() {
       // Update the timer value using the mutable reference
       timerRef.current -= 1;
     }, 1000);
-    return () => clearInterval(interval);
-  });
 
-  // const TimerDisplay = () => {
-  //   // Style the timer using a separate div
-  //   return (
-  //     <div className="timer">
-  //       {/* <FontAwesomeIcon icon={faClock} className="clock-icon" /> */}
-  //       <FontAwesomeIcon icon="clock" className="clock-icon" />
-  //       <span>{timer}</span>
-  //     </div>
-  //   );
-  // };
+    // clear the interval when the component unmounts
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <>

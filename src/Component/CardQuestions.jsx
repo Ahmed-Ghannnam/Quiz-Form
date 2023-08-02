@@ -35,6 +35,7 @@ function CardQuestions(props) {
   useEffect(() => {
     // store values had been selected to compare them with corrected answers
     dispatch(NameAction.catchselected(SelectedValues));
+    console.log(SelectedValues);
   }, [SelectedValues, dispatch]);
 
   return (
