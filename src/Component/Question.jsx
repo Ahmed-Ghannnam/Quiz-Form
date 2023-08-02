@@ -24,7 +24,6 @@ function Question() {
   const [timer, setTimer] = useState(10);
   // Use useRef to maintain a mutable reference to the timer value
   const timerRef = useRef(10);
-  const intervalRef = useRef(null);
 
   useEffect(() => {
     // make asynk thunk to avoid asynk operation
